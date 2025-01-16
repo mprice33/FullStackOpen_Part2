@@ -32,6 +32,16 @@ const App = () => {
       })
     }
   }
+
+  const deleteRequest = (event) => {
+    const person = persons.find(person=>person.id === event.target.id)
+    if (window.confirm(`Delete ${person.name}?`)){
+      phoneBookService.deletePerson(event.target.id).then(response=>{
+        console.log(response)
+        setPersons(persons.filter(person=>person.id !== event.target.id))
+      })
+    }
+  }
   
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -51,7 +61,7 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm handleSubmit={handleSubmit} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
-      <Persons persons={persons} newFilter={newFilter}/>
+      <Persons persons={persons} newFilter={newFilter} deleteRequest={deleteRequest}/>
     </div>
   )
 }
